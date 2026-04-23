@@ -197,6 +197,33 @@ document.getElementById('modal').addEventListener('click', e => {
   if (e.target === e.currentTarget) closeModal();
 });
 
+async function testTelegram() {
+  const btn = document.getElementById('tg-test-btn');
+  const result = document.getElementById('tg-test-result');
+  btn.disabled = true;
+  btn.textContent = 'Yuborilmoqda...';
+  result.textContent = '';
+  result.className = '';
+  try {
+    const res = await fetch('/api/admin/test-telegram', {
+      method: 'POST', headers: authHeaders()
+    });
+    const data = await res.json();
+    if (data.ok) {
+      result.textContent = '✓ Xabar yuborildi!';
+      result.className = 'tg-ok';
+    } else {
+      result.textContent = '✗ ' + data.error;
+      result.className = 'tg-err';
+    }
+  } catch {
+    result.textContent = '✗ Server bilan boglanib bolmadi';
+    result.className = 'tg-err';
+  }
+  btn.disabled = false;
+  btn.textContent = 'Telegram sinov xabari yuborish';
+}
+
 function parseDate(str) {
   const [y, m, d] = str.split('-').map(Number);
   return new Date(y, m - 1, d);

@@ -259,20 +259,47 @@ app.delete('/api/admin/booking/:id', adminAuth, (req, res) => {
 
 // --- Telegram ---
 
+async function sendTelegramMessage(chatId, text) {
+  const res = await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ chat_id: chatId, text })
+  });
+  const data = await res.json();
+  if (!data.ok) throw new Error(`Telegram API: ${data.description} (code ${data.error_code})`);
+  return data;
+}
+
 async function sendTelegramNotification(booking) {
-  if (!TG_BOT_TOKEN || !TG_CHAT_ID) return;
+  if (!TG_BOT_TOKEN || !TG_CHAT_ID) {
+    console.log('Telegram: TG_BOT_TOKEN yoki TG_CHAT_ID belgilanmagan');
+    return;
+  }
   const sName = SERVICES[booking.service]?.name || booking.service;
-  const text = `Yangi band qilish!\n\nIsm: ${booking.name}\nTelefon: ${booking.phone}\nXizmat: ${sName}\nSana: ${booking.date}\nVaqt: ${booking.time}`;
+  const text = `📋 Yangi band qilish!\n\n👤 Ism: ${booking.name}\n📱 Telefon: ${booking.phone}\n✂️ Xizmat: ${sName}\n📅 Sana: ${booking.date}\n🕐 Vaqt: ${booking.time}`;
   try {
-    await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: TG_CHAT_ID, text })
-    });
+    await sendTelegramMessage(TG_CHAT_ID, text);
+    console.log('Telegram: xabar yuborildi');
   } catch (err) {
     console.error('Telegram xatolik:', err.message);
   }
 }
+
+// Admin: test Telegram connection
+app.post('/api/admin/test-telegram', adminAuth, async (req, res) => {
+  if (!TG_BOT_TOKEN || !TG_CHAT_ID) {
+    return res.status(400).json({
+      ok: false,
+      error: 'TG_BOT_TOKEN va TG_CHAT_ID Railway Variables-da belgilanmagan'
+    });
+  }
+  try {
+    await sendTelegramMessage(TG_CHAT_ID, '✅ Ozod Barber bot ishlayapti! Ulanish muvaffaqiyatli.');
+    res.json({ ok: true, message: 'Test xabari yuborildi!' });
+  } catch (err) {
+    res.status(400).json({ ok: false, error: err.message });
+  }
+});
 
 const server = app.listen(PORT, () => {
   console.log(`\n  Ozod Barber server ishlamoqda!`);
