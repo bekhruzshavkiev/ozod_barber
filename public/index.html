@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ozod Barber - Online Band Qilish</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="header">
+    <h1>OZOD BARBER</h1>
+    <p>Online navbat olish</p>
+  </div>
+
+  <main>
+    <!-- Step 1: Service -->
+    <section id="step-service" class="step active">
+      <h2 class="step-title">Xizmatni tanlang</h2>
+      <div id="services" class="services"></div>
+    </section>
+
+    <!-- Step 2: Date -->
+    <section id="step-date" class="step">
+      <div class="summary-bar" id="summary"></div>
+      <h2 class="step-title">Kunni tanlang</h2>
+      <div id="dates" class="dates-row"></div>
+      <button class="btn btn-back" onclick="goBack('service')">Orqaga</button>
+    </section>
+
+    <!-- Step 3: Time -->
+    <section id="step-time" class="step">
+      <div class="summary-bar" id="summary2"></div>
+      <h2 class="step-title">Vaqtni tanlang</h2>
+      <div id="slots" class="slots-grid"></div>
+      <button class="btn btn-back" onclick="goBack('date')">Orqaga</button>
+    </section>
+
+    <!-- Step 4: Details -->
+    <section id="step-details" class="step">
+      <div class="summary-bar" id="summary3"></div>
+      <h2 class="step-title">Ma'lumotlaringiz</h2>
+      <div id="form-error" class="error-msg"></div>
+      <form id="booking-form" onsubmit="submitBooking(event)">
+        <div class="form-group">
+          <label for="name">Ismingiz</label>
+          <input type="text" id="name" placeholder="Masalan: Ali" required>
+        </div>
+        <div class="form-group">
+          <label for="phone">Telefon raqamingiz</label>
+          <input type="tel" id="phone" placeholder="+998 90 123 45 67" required>
+        </div>
+        <button type="submit" class="btn btn-primary" id="submit-btn">Band qilish</button>
+      </form>
+      <button class="btn btn-back" onclick="goBack('time')">Orqaga</button>
+    </section>
+
+    <!-- Step 5: Success -->
+    <section id="step-success" class="step">
+      <div class="success-box">
+        <div class="success-icon">&#10003;</div>
+        <h2>Muvaffaqiyatli!</h2>
+        <p>Sizning navbatingiz tasdiqlandi</p>
+        <div id="booking-result" class="booking-details"></div>
+        <button class="btn btn-primary" onclick="resetBooking()">Yangi band qilish</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <a href="admin.html">Boshqaruv paneli</a>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

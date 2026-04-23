@@ -1,0 +1,146 @@
+:root {
+  --bg: #F7F5F0; --surface: #FFFFFF; --primary: #1A1A2E;
+  --accent: #C8A97E; --accent-dark: #A8864E;
+  --success: #2D8A56; --success-light: #E8F5EE;
+  --danger: #D04848; --danger-light: #FDECEC;
+  --muted: #9E9E9E; --text: #333333; --text-light: #777777;
+  --border: #E8E4DC; --shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+.header { background: var(--primary); color: white; text-align: center; padding: 28px 16px 22px; }
+.header h1 { font-size: 28px; font-weight: 700; letter-spacing: 1px; }
+.header p { color: var(--accent); font-size: 14px; margin-top: 4px; }
+
+main { max-width: 600px; margin: 0 auto; padding: 16px; }
+
+.step { display: none; animation: fadeIn 0.3s ease; }
+.step.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+.step-title { font-size: 18px; font-weight: 600; margin: 16px 0 12px; color: var(--primary); }
+
+.summary-bar { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; margin-bottom: 16px; font-size: 14px; color: var(--text-light); display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.summary-bar .tag { background: var(--accent); color: white; padding: 3px 10px; border-radius: 20px; font-size: 13px; font-weight: 500; }
+
+.services { display: flex; flex-direction: column; gap: 10px; }
+.service-card { background: var(--surface); border: 2px solid var(--border); border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 14px; }
+.service-card:hover { border-color: var(--accent); }
+.service-card.selected { border-color: var(--accent); background: linear-gradient(135deg,#FDF8F0,#FFF); box-shadow: 0 0 0 3px rgba(200,169,126,0.15); }
+.service-icon { width: 48px; height: 48px; border-radius: 12px; background: var(--primary); color: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.service-info h3 { font-size: 16px; font-weight: 600; }
+.service-info span { font-size: 13px; color: var(--text-light); }
+
+.dates-row { display: flex; gap: 8px; overflow-x: auto; padding: 4px 0 12px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.dates-row::-webkit-scrollbar { display: none; }
+.date-card { flex-shrink: 0; width: 70px; padding: 10px 6px; border-radius: 12px; border: 2px solid var(--border); background: var(--surface); text-align: center; cursor: pointer; transition: all 0.2s; }
+.date-card:hover { border-color: var(--accent); }
+.date-card.selected { border-color: var(--accent); background: var(--accent); color: white; }
+.date-card.selected .date-day,
+.date-card.selected .date-weekday { color: white; }
+.date-card.day-off { opacity: 0.4; text-decoration: line-through; cursor: not-allowed; }
+.date-weekday { font-size: 11px; color: var(--text-light); text-transform: uppercase; font-weight: 600; }
+.date-day { font-size: 22px; font-weight: 700; color: var(--primary); line-height: 1.3; }
+.date-month { font-size: 11px; color: var(--text-light); }
+
+.slots-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; }
+.slot { padding: 12px 4px; border-radius: 10px; text-align: center; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; border: 2px solid transparent; }
+.slot.available { background: var(--success-light); color: var(--success); border-color: rgba(45,138,86,0.2); }
+.slot.available:hover { border-color: var(--success); transform: scale(1.03); }
+.slot.available.selected { background: var(--success); color: white; }
+.slot.unavailable { background: #F5F5F5; color: var(--muted); cursor: not-allowed; }
+.slot.past { background: #FAFAFA; color: #CCC; cursor: not-allowed; }
+.slot-label { font-size: 10px; font-weight: 400; margin-top: 2px; }
+.no-slots-msg { text-align: center; color: var(--text-light); padding: 32px 16px; font-size: 15px; }
+
+.form-group { margin-bottom: 14px; }
+.form-group label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; color: var(--primary); }
+.form-group input { width: 100%; padding: 12px 14px; border: 2px solid var(--border); border-radius: 10px; font-size: 16px; outline: none; transition: border-color 0.2s; }
+.form-group input:focus { border-color: var(--accent); }
+
+.btn { display: block; width: 100%; padding: 14px; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+.btn-primary { background: var(--accent); color: white; }
+.btn-primary:hover { background: var(--accent-dark); }
+.btn-primary:disabled { background: #DDD; color: #999; cursor: not-allowed; }
+.btn-back { background: none; border: 2px solid var(--border); color: var(--text-light); padding: 10px; font-size: 14px; margin-top: 10px; }
+.btn-back:hover { border-color: var(--muted); }
+
+.success-box { text-align: center; padding: 32px 16px; }
+.success-icon { width: 64px; height: 64px; border-radius: 50%; background: var(--success-light); color: var(--success); display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 16px; }
+.success-box h2 { color: var(--success); font-size: 22px; margin-bottom: 8px; }
+.success-box p { color: var(--text-light); margin-bottom: 20px; }
+.booking-details { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; text-align: left; margin-bottom: 20px; }
+.booking-details .row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #F5F3EF; }
+.booking-details .row:last-child { border: none; }
+.booking-details .label { color: var(--text-light); font-size: 14px; }
+.booking-details .value { font-weight: 600; font-size: 14px; }
+
+.error-msg { background: var(--danger-light); color: var(--danger); padding: 10px 14px; border-radius: 8px; font-size: 14px; margin-bottom: 12px; display: none; }
+.error-msg.visible { display: block; }
+
+footer { text-align: center; padding: 24px; font-size: 13px; color: var(--muted); }
+footer a { color: var(--accent-dark); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+
+/* === ADMIN === */
+.admin-header { background: var(--primary); color: white; padding: 16px; display: flex; align-items: center; justify-content: space-between; }
+.admin-header h1 { font-size: 20px; }
+.admin-header .logout-btn { background: rgba(255,255,255,0.1); color: white; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; }
+.admin-header .logout-btn:hover { background: rgba(255,255,255,0.2); }
+
+.login-box { max-width: 360px; margin: 80px auto; padding: 32px; background: var(--surface); border-radius: 16px; box-shadow: var(--shadow); text-align: center; }
+.login-box h2 { margin-bottom: 20px; color: var(--primary); }
+
+.admin-date-nav { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 16px; background: var(--surface); border-bottom: 1px solid var(--border); }
+.admin-date-nav button { background: none; border: 1px solid var(--border); border-radius: 8px; padding: 8px 14px; cursor: pointer; font-size: 14px; color: var(--text); }
+.admin-date-nav button:hover { background: #F5F3EF; }
+.admin-date-nav .current-date { font-size: 17px; font-weight: 700; color: var(--primary); min-width: 180px; text-align: center; }
+
+.admin-controls { max-width: 700px; margin: 0 auto; padding: 16px; }
+.day-off-toggle { display: flex; align-items: center; justify-content: space-between; background: var(--surface); border-radius: 12px; padding: 14px 16px; margin-bottom: 16px; box-shadow: var(--shadow); }
+.day-off-toggle span { font-weight: 600; font-size: 15px; }
+
+.switch { position: relative; width: 50px; height: 28px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; inset: 0; background: #CCC; border-radius: 28px; transition: 0.3s; }
+.slider::before { content: ''; position: absolute; height: 22px; width: 22px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: 0.3s; }
+.switch input:checked + .slider { background: var(--danger); }
+.switch input:checked + .slider::before { transform: translateX(22px); }
+
+.admin-stats { display: flex; gap: 12px; margin-bottom: 16px; }
+.stat-card { flex: 1; background: var(--surface); border-radius: 10px; padding: 12px; text-align: center; box-shadow: var(--shadow); }
+.stat-card .number { font-size: 24px; font-weight: 700; color: var(--primary); }
+.stat-card .label { font-size: 12px; color: var(--text-light); }
+
+.admin-slots { background: var(--surface); border-radius: 12px; box-shadow: var(--shadow); overflow: hidden; }
+.admin-slot { display: flex; align-items: center; padding: 12px 16px; border-bottom: 1px solid #F5F3EF; transition: background 0.15s; }
+.admin-slot:last-child { border: none; }
+.admin-slot:hover { background: #FDFCF9; }
+.admin-slot .time { font-weight: 700; font-size: 15px; width: 60px; flex-shrink: 0; }
+.admin-slot .status-dot { width: 10px; height: 10px; border-radius: 50%; margin-right: 10px; flex-shrink: 0; }
+.admin-slot .status-dot.open { background: var(--success); }
+.admin-slot .status-dot.booked { background: var(--danger); }
+.admin-slot .status-dot.blocked { background: var(--muted); }
+.admin-slot .status-dot.continuation { background: var(--danger); opacity: 0.5; }
+.admin-slot .info { flex: 1; font-size: 14px; color: var(--text-light); }
+.admin-slot .info.booked-info { color: var(--text); font-weight: 500; }
+.admin-slot .action-btn { background: none; border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; font-size: 12px; cursor: pointer; color: var(--text-light); }
+.admin-slot .action-btn:hover { background: #F5F3EF; }
+.admin-slot.day-off-slot { opacity: 0.3; pointer-events: none; }
+
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 100; align-items: center; justify-content: center; padding: 16px; }
+.modal-overlay.visible { display: flex; }
+.modal { background: var(--surface); border-radius: 16px; padding: 24px; max-width: 400px; width: 100%; box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
+.modal h3 { font-size: 18px; margin-bottom: 16px; color: var(--primary); }
+.modal .detail-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #F5F3EF; font-size: 14px; }
+.modal .detail-row:last-child { border: none; }
+.modal .detail-label { color: var(--text-light); }
+.modal .detail-value { font-weight: 600; }
+.modal-actions { display: flex; gap: 8px; margin-top: 16px; }
+.modal-actions button { flex: 1; padding: 10px; border-radius: 8px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; }
+.btn-cancel-booking { background: var(--danger-light); color: var(--danger); }
+.btn-cancel-booking:hover { background: #F8D7D7; }
+.btn-close-modal { background: #F0F0F0; color: var(--text); }
+.btn-close-modal:hover { background: #E5E5E5; }
+
+@media (max-width: 400px) { .slots-grid { grid-template-columns: repeat(3,1fr); } .admin-stats { flex-direction: column; } }

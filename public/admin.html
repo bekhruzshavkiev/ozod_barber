@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ozod Barber - Boshqaruv</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Login -->
+  <div id="login-screen">
+    <div class="login-box">
+      <h2>Boshqaruv paneli</h2>
+      <div id="login-error" class="error-msg"></div>
+      <form onsubmit="login(event)">
+        <div class="form-group">
+          <label for="password">Parol</label>
+          <input type="password" id="password" placeholder="Parolni kiriting" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Kirish</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Admin Dashboard -->
+  <div id="admin-screen" style="display:none;">
+    <div class="admin-header">
+      <h1>Ozod Barber</h1>
+      <button class="logout-btn" onclick="logout()">Chiqish</button>
+    </div>
+
+    <div class="admin-date-nav">
+      <button onclick="changeDate(-1)">&#8592; Oldingi</button>
+      <span class="current-date" id="current-date"></span>
+      <button onclick="changeDate(1)">Keyingi &#8594;</button>
+    </div>
+
+    <div class="admin-controls">
+      <div class="day-off-toggle">
+        <span id="day-status-label">Ish kuni</span>
+        <label class="switch">
+          <input type="checkbox" id="day-off-toggle" onchange="toggleDayOff()">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="admin-stats">
+        <div class="stat-card">
+          <div class="number" id="stat-bookings">0</div>
+          <div class="label">Buyurtmalar</div>
+        </div>
+        <div class="stat-card">
+          <div class="number" id="stat-open">0</div>
+          <div class="label">Bo'sh</div>
+        </div>
+        <div class="stat-card">
+          <div class="number" id="stat-blocked">0</div>
+          <div class="label">Bloklangan</div>
+        </div>
+      </div>
+
+      <div class="admin-slots" id="admin-slots"></div>
+    </div>
+  </div>
+
+  <!-- Booking Detail Modal -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal">
+      <h3 id="modal-title">Buyurtma tafsilotlari</h3>
+      <div id="modal-body"></div>
+      <div class="modal-actions" id="modal-actions"></div>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
