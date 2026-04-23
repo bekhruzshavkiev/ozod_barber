@@ -1,13 +1,19 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const DATA_FILE = path.join(__dirname, 'data.json');
+// DATA_DIR can be set to a persistent volume path in production (e.g. /data)
+const DATA_DIR = process.env.DATA_DIR || __dirname;
+const DATA_FILE = path.join(DATA_DIR, 'data.json');
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'ozod2026';
 const TG_BOT_TOKEN = process.env.TG_BOT_TOKEN || '';
 const TG_CHAT_ID = process.env.TG_CHAT_ID || '';
+
+// Ensure data directory exists
+if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -158,9 +164,14 @@ app.post('/api/book', (req, res) => {
 
 // --- Admin API ---
 
+function signToken(ts) {
+  return crypto.createHmac('sha256', ADMIN_PASSWORD).update(String(ts)).digest('hex');
+}
+
 app.post('/api/admin/login', (req, res) => {
   if (req.body.password === ADMIN_PASSWORD) {
-    const token = Buffer.from(`admin:${Date.now()}`).toString('base64');
+    const ts = Date.now();
+    const token = `${ts}.${signToken(ts)}`;
     res.json({ success: true, token });
   } else {
     res.status(401).json({ error: "Noto'g'ri parol" });
@@ -171,7 +182,8 @@ function adminAuth(req, res, next) {
   const token = req.headers.authorization?.replace('Bearer ', '');
   if (!token) return res.status(401).json({ error: "Ruxsat yo'q" });
   try {
-    if (Buffer.from(token, 'base64').toString().startsWith('admin:')) return next();
+    const [ts, sig] = token.split('.');
+    if (sig && signToken(ts) === sig) return next();
   } catch {}
   res.status(401).json({ error: "Ruxsat yo'q" });
 }
@@ -262,9 +274,18 @@ async function sendTelegramNotification(booking) {
   }
 }
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`\n  Ozod Barber server ishlamoqda!`);
   console.log(`  Mijozlar uchun:  http://localhost:${PORT}`);
   console.log(`  Admin panel:     http://localhost:${PORT}/admin.html`);
   console.log(`  Admin parol:     ${ADMIN_PASSWORD}\n`);
+});
+
+server.on('error', err => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`\n  Xatolik: ${PORT}-port band! Boshqa jarayonni to'xtating yoki PORT muhitini o'zgartiring.\n`);
+  } else {
+    console.error('Server xatoligi:', err);
+  }
+  process.exit(1);
 });
