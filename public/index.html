@@ -14,10 +14,31 @@
   </div>
 
   <main>
+
+    <!-- Home -->
+    <section id="step-home" class="step active">
+      <div class="home-card">
+        <div class="home-icon">&#9986;</div>
+        <h2 class="home-title">Xush kelibsiz!</h2>
+        <p class="home-subtitle">Professional sartaroshxona</p>
+        <div class="home-info">
+          <div class="info-row">
+            <span class="info-icon">&#128336;</span>
+            <span>09:00 &ndash; 19:00, har kuni</span>
+          </div>
+        </div>
+        <button class="btn btn-primary home-btn" onclick="showStep('service')">
+          Navbat olish
+        </button>
+        <a href="admin.html" class="home-admin-link">Boshqaruv paneli</a>
+      </div>
+    </section>
+
     <!-- Step 1: Service -->
-    <section id="step-service" class="step active">
+    <section id="step-service" class="step">
       <h2 class="step-title">Xizmatni tanlang</h2>
       <div id="services" class="services"></div>
+      <button class="btn btn-back" onclick="showStep('home')">Orqaga</button>
     </section>
 
     <!-- Step 2: Date -->
@@ -62,14 +83,11 @@
         <h2>Muvaffaqiyatli!</h2>
         <p>Sizning navbatingiz tasdiqlandi</p>
         <div id="booking-result" class="booking-details"></div>
-        <button class="btn btn-primary" onclick="resetBooking()">Yangi band qilish</button>
+        <button class="btn btn-primary" onclick="resetBooking()">Bosh sahifaga</button>
       </div>
     </section>
-  </main>
 
-  <footer>
-    <a href="admin.html">Boshqaruv paneli</a>
-  </footer>
+  </main>
 
   <script src="app.js"></script>
 </body>

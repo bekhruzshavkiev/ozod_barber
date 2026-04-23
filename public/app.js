@@ -9,6 +9,7 @@ let selectedDate = null;
 let selectedTime = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
+  // Preload data silently in the background while home page is shown
   const [svcRes, doffRes] = await Promise.all([
     fetch('/api/services').then(r => r.json()),
     fetch('/api/days-off').then(r => r.json())
@@ -16,6 +17,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   services = svcRes;
   daysOff = doffRes.daysOff || [];
   renderServices();
+  // Start on home page
+  showStep('home');
 });
 
 function renderServices() {
@@ -187,7 +190,7 @@ function resetBooking() {
   document.getElementById('submit-btn').disabled = false;
   document.getElementById('submit-btn').textContent = 'Band qilish';
   document.getElementById('form-error').classList.remove('visible');
-  showStep('service');
+  showStep('home');
 }
 
 function showStep(step) {
